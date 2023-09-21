@@ -1,0 +1,69 @@
+﻿@page
+@model Web.Pages.Customers.EditModel
+@{
+    ViewData["Title"] = "Müşteri " + ((Model.Customer != null && Model.Customer.Id > 0) ? "Düzenle" : "Ekle");
+}
+
+<form asp-page-handler="delete" method="post" id="form-delete">
+    <input type="hidden" asp-for="Customer.Id" />
+</form>
+
+@await Component.InvokeAsync("PageHeader",
+   new PageHeaderViewModel
+   {
+       Title = (string)ViewData["Title"]!,
+       BackToListLink = "Index",
+       SaveMethod = "saveEntity()",
+       DeleteMethod = (Model.Customer != null && Model.Customer.Id > 0) ? "deleteEntity()" : null
+   }
+)
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" id="form-main">
+                            <div class="row">
+
+                                @if (Model.Customer != null && Model.Customer.Id > 0)
+                                {
+                                    <input type="hidden" asp-for="Customer.Id" />
+                                }
+                                <div asp-validation-summary="ModelOnly" class="text-danger col-12"></div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Customer.Name" class="form-label">Müşteri Adı</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Customer.Name).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Customer.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Customer.PhoneNumber" class="form-label">Telefon</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Customer.PhoneNumber).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Customer.PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Customer.Email" class="form-label">E-Mail</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Customer.Email).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Customer.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Customer.Address" class="form-label">Adres</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Customer.Address).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Customer.Address" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Customer.Address" class="form-label">Sadakat Puanı</label>
+                                    @Html.Kendo().NumericTextBoxFor(f => f.Customer.LoyaltyPoints).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Customer.Address" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,266 @@
+﻿@page
+@model Web.Pages.Orders.EditModel
+@{
+    ViewData["Title"] = "Sipariş " + ((Model.Order != null && Model.Order.Id > 0) ? "Düzenle" : "Ekle");
+}
+
+<form asp-page-handler="delete" method="post" id="form-delete">
+    <input type="hidden" asp-for="Order.Id" />
+</form>
+
+@await Component.InvokeAsync("PageHeader",
+   new PageHeaderViewModel
+   {
+       Title = (string)ViewData["Title"]!,
+       BackToListLink = "Index",
+       SaveMethod = "saveEntity()",
+       DeleteMethod = (Model.Order != null && Model.Order.Id > 0) ? "deleteEntity()" : null
+   }
+)
+
+@(Html.Kendo().Window()
+    .Name("windowGroupedProducts")
+    .Modal(true)
+    .Title("Ürünler")
+    .Content(@<content>
+        <div>
+            @(
+        Html.Kendo().Grid<Product>().Name("gridWindowGroupedProducts")
+        .Sortable()
+        .Filterable()
+        .ToolBar(t => t.Search().Text("Arama..."))
+        .Search(s =>
+        {
+                    s.Field(f => f.Name);
+                })
+        .Columns(columns =>
+        {
+                    columns.Select();
+                    columns.Bound(column => column.Id).Title("#").Width(80);
+            //columns.ForeignKey(column => column.ProductId, ds => ds.Read(r => r.Url(Model.CurrentPageUrl + "?handler=ReadProducts").Data("forgeryToken")), "CategoryID", "CategoryName").Title("Ad");
+                    columns.Bound(column => column.Name).Title("Adet");
+                    columns.Bound(column => column.CostPrice).Title("Maliyet Fiyat");
+                    columns.Bound(column => column.UnitPrice).Title("Birim Fiyat");
+
+
+                })
+        .DataSource(ds => ds.Ajax()
+        .Read(r => r.Url(Model.CurrentPageUrl + "?handler=ReadProducts").Data("forgeryToken"))
+        .Model(m => m.Id(id => id.Id))
+        .PageSize(20)
+        )
+        .Events(e => e.Change("onChangeGridWindowGroupedProducts").DataBound("onDataBoundGridWindowGroupedProducts"))
+        .Pageable()
+        )
+            </div>
+        </content>
+    )
+    .Draggable()
+    .Resizable()
+    .Width(1000)
+    .Height(450)
+    .Visible(false)
+    .Actions(actions => actions.Custom("save").Close())
+    .Events(ev => ev.Close("onCloseWindowGroupedProducts")))
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" id="form-main">
+                            <div class="row">
+
+                                @if (Model.Order != null && Model.Order.Id > 0)
+                                {
+                                    <input type="hidden" asp-for="Order.Id" />
+                                }
+                                @Html.HiddenFor(x => x.ProductAddOnProductGroupsJson)
+                                <div asp-validation-summary="ModelOnly" class="text-danger col-12"></div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Order.OrderDate" class="form-label">Sipariş Tarihi</label>
+                                    @Html.Kendo().DatePickerFor(f => f.Order.OrderDate).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Order.OrderDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Order.CustomerId" class="form-label">Müşteri Adı</label>
+                                    @(Html.Kendo().DropDownListFor(m => m.Order.CustomerId)
+                                        .DataTextField("Name")
+                                        .DataValueField("Id")
+                                        .OptionLabel("--Müşteri Seçiniz--")
+                                        @*.AutoWidth(true)*@
+                                        .Value(Model.Order != null ? Model.Order.CustomerId.ToString() : "")
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Url(Model.CurrentPageUrl + "?handler=ReadCustomers").Data("forgeryToken");
+                                            })
+                                            .ServerFiltering(false);
+
+                                        })
+                                        )
+                                    <span asp-validation-for="Order.CustomerId" class="text-danger"></span>
+                                </div>
+                                <div id="grouped-product">
+                                    <div class="card mt-4">
+                                        <div class="card-header">
+                                            @*<h6 class="card-title mb-2 mt-3 float-left">Bağlı Ürünler</h6>*@
+                                            <button id="add-grouped-product-btn" class="float-right btn btn-outline-secondary btn-sm mt-2" type="button">+ Ürün Ekle</button>
+                                            <div class="separator mb-0"></div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="grid-grouped-products-container">
+                                                        @(
+                                                            Html.Kendo().Grid<Product>().Name("gridGroupedProducts")
+                                                                    .Sortable()
+                                                                    .Filterable()
+                                                                    .Editable(e =>
+                                                                    {
+                                                                        e.Enabled(true);
+                                                                        e.Mode(GridEditMode.InCell);
+                                                                    })
+                                                            .Columns(columns =>
+                                                            {
+                                                            //columns.Bound(column => column.Id).Title("#").Width(80);
+                                                                columns.Bound(column => column.Name).Title("Ad");
+                                                                columns.Bound(column => column.CostPrice).Title("Maaliyet Fiyatı");
+                                                                columns.Bound(column => column.UnitPrice).Title("Birim Fiyat");
+                                                                columns.Bound(column => column.CurrentStockQuantity).Title("Adet");
+                                                                columns.Command(c => c.Custom("DeleteGroupedProducts").Text("Sil").Click("onDeleteGridGroupedProducts"));
+
+                                                            })
+                                                            .Events(e => e.CellClose("onChangeGridGroupedProducts"))
+                                                            .DataSource(ds => ds
+                                                            .Ajax()
+                                                            .Model(m =>
+                                                            {
+                                                                m.Id(id => id.Id);
+                                                                m.Field(f => f.Name).Editable(false);
+                                                                m.Field(f => f.CostPrice).Editable(false);
+                                                                m.Field(f => f.UnitPrice).Editable(false);
+                                                                m.Field(f => f.CurrentStockQuantity).Editable(true).DefaultValue(1);
+                                                            })
+                                                            
+                                                            .PageSize(20)
+                                                            )
+                                                            )
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var selectedGroupedProducts = [];
+    var gridGroupedProducts, windowGroupedProducts, gridWindowGroupedProducts;
+    function OnEditOrderItems(e) {
+        var ddl = e.container.find("[data-role='dropdownlist']").data("kendoDropDownList");
+        if (ddl) {
+            ddl.setOptions({ filter: "contains" });
+        }
+    }
+
+    function additionalData(e) {
+        return {
+            orderId: '@Model.Order?.Id.ToString()',
+            "": kendo.antiForgeryTokens()
+        }
+    }
+
+    function onDeleteGridGroupedProducts(e) {
+        var dataItem = gridGroupedProducts.dataItem($(e.currentTarget).closest("tr"));
+        selectedGroupedProducts = selectedGroupedProducts.filter(function (item) {
+            return item.Id !== dataItem.Id
+        });
+        gridGroupedProducts.dataSource.data(selectedGroupedProducts);
+        $("#ProductAddOnProductGroupsJson").val(JSON.stringify(selectedGroupedProducts));
+
+        var selected = gridWindowGroupedProducts.select();
+        selected = $.grep(selected, function (x) {
+            var currentItem = gridWindowGroupedProducts.dataItem(x);
+            return dataItem.Id != currentItem.Id
+        })
+        gridWindowGroupedProducts.clearSelection();
+
+        gridWindowGroupedProducts.select(selected);
+
+        $('body').scrollTo("#grouped-product", 100);
+    }
+
+    function onChangeGridGroupedProducts(e){
+        var dataItem = e.model;
+        selectedGroupedProducts = selectedGroupedProducts.filter(function (item) {
+            return item.Id !== dataItem.Id
+        });
+        selectedGroupedProducts.push(dataItem);
+        gridGroupedProducts.dataSource.data(selectedGroupedProducts);
+        $("#ProductAddOnProductGroupsJson").val(JSON.stringify(selectedGroupedProducts));
+        console.log(dataItem);
+    }
+
+    function onReady() {
+        debugger;
+        windowGroupedProducts = $("#windowGroupedProducts").data("kendoWindow");
+
+        gridWindowGroupedProducts = $("#gridWindowGroupedProducts").data("kendoGrid");
+        gridGroupedProducts = $("#gridGroupedProducts").data("kendoGrid");
+
+        $('#add-grouped-product-btn').click(function () { windowGroupedProducts.open().center(); });
+
+        windowGroupedProducts.wrapper.find(".k-i-save").parent().click(onAddGroupedProducts);
+
+        function onAddGroupedProducts(e) {
+            windowGroupedProducts.close();
+            gridGroupedProducts.dataSource.data(selectedGroupedProducts);
+            $('html, body').animate({
+                scrollTop: $("#grouped-product").offset().top
+            }, 100);
+            //$('body').scrollTo('#grouped-product', 100);
+        }
+    }
+
+    function onChangeGridWindowGroupedProducts(e) {
+        var rows = e.sender.select();
+        rows.each(function (e) {
+            var dataItem = gridWindowGroupedProducts.dataItem(this);
+
+            if (selectedGroupedProducts.filter(f => f.Id == dataItem.Id).length == 0) {
+                selectedGroupedProducts.push(dataItem);
+                $("#ProductAddOnProductGroupsJson").val(JSON.stringify(selectedGroupedProducts));
+            }
+        });
+    }
+
+    function onDataBoundGridWindowGroupedProducts(e) {
+        var rows = gridWindowGroupedProducts.items();
+        $(rows).each(function (e) {
+            var row = this;
+            var dataItem = gridWindowGroupedProducts.dataItem(row);
+
+            if (selectedGroupedProducts.filter(f => f.Id == dataItem.Id).length > 0) {
+                gridWindowGroupedProducts.select(row);
+            }
+        });
+    }
+
+    function onCloseWindowGroupedProducts(e) {
+    }
+
+    $(document).ready(onReady);
+</script>

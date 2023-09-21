@@ -1,0 +1,47 @@
+﻿@page
+@model Web.Pages.Commerce.Categories.IndexModel
+
+@await Component.InvokeAsync("PageHeader",
+   new PageHeaderViewModel
+   {
+       Title = (string)ViewData["Title"]!,
+   }
+)
+@(Html.Kendo().TreeList<Category>()
+    .Name("treelist")
+    .Toolbar(toolbar => toolbar.Create())
+    .Columns(columns =>
+    {
+        columns.Add().Field(e => e.Name);
+        columns.Add().Width(400).Command(c =>
+      {
+          c.CreateChild().Text("Ekle");
+          c.Edit();
+          c.Destroy();
+      });
+
+    })
+    .Editable()
+    .Filterable()
+    .Sortable()
+    .DataSource(dataSource => dataSource
+        .Read(r => r.Url(Model.CurrentPageUrl + "?handler=Read").Data("forgeryToken"))
+        .Create(r => r.Url(Model.CurrentPageUrl + "?handler=Create").Data("forgeryToken"))
+        .Update(r => r.Url(Model.CurrentPageUrl + "?handler=Update").Data("forgeryToken"))
+        .Destroy(r => r.Url(Model.CurrentPageUrl + "?handler=Delete").Data("forgeryToken"))
+        .ServerOperation(false)
+        .Model(m =>
+        {
+            m.Id(f => f.Id);
+            m.ParentId(f => f.ParentCategoryId);
+            m.Expanded(true);
+            m.Field(f => f.Id);
+            m.Field(f => f.ParentCategoryId);
+        })
+        .Events(e => e.RequestEnd("onRequestEnd").Error("onErrorGrid"))
+    )
+    .Height(540)
+    .Pageable(p => p.PageSize(15)
+                    .PageSizes(true)
+    )
+)

@@ -1,0 +1,36 @@
+﻿@page
+@model Web.Pages.Customers.IndexModel
+@{
+    ViewData["Title"] = "Müşteri Listesi";
+}
+@await Component.InvokeAsync("PageHeader",
+   new PageHeaderViewModel
+   {
+       Title = (string)ViewData["Title"]!,
+       AddNewLink = "Edit",
+       AddNewText = "Yeni Müşteri",
+       SearchFields = "Name"
+   }
+)
+@(Html.Kendo().Grid<Customer>().Name("grid")
+            .Sortable()
+            .Filterable()
+            .Columns(columns =>
+            {
+                columns.Bound(column => column.Id).Title("Id").Width(80);
+                columns.Bound(column => column.Name);
+                columns.Bound(column => column.PhoneNumber);
+                columns.Bound(column => column.Email);
+                columns.Command(command =>
+                {
+                    command.Custom("Detay").Click("editItem");
+                }).Width(90);
+            })
+            .DataSource(ds => ds.Ajax()
+                    .Read(r => r.Url(Model.CurrentPageUrl + "?handler=Read").Data("forgeryToken"))
+                    .Model(m => m.Id(id => id.Id))
+                .PageSize(10)
+            )
+            .Pageable()
+        )
+

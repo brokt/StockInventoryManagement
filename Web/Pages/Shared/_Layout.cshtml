@@ -1,0 +1,102 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--favicon-->
+    <link rel="icon" href="~/assets/images/favicon-32x32.png" type="image/png" />
+    <!--plugins-->
+    <link href="~/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/plugins/highcharts/css/highcharts.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/kendo.css" rel="stylesheet" asp-append-version="true" />
+    <!-- loader-->
+    <link href="~/assets/css/pace.min.css" rel="stylesheet" asp-append-version="true" />
+    <script src="~/assets/js/pace.min.js"></script>
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/js/kendo.js"></script>
+    <script src="~/js/main.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="~/assets/css/app.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/assets/css/icons.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true">
+    <!-- Theme Style CSS -->
+    <link rel="stylesheet" href="~/assets/css/dark-theme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/assets/css/semi-dark.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/assets/css/header-colors.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Stok Envanter</title>
+</head>
+
+<body class="body-content">
+    <!--wrapper-->
+    <div class="wrapper">
+        <!--sidebar wrapper -->
+        <div class="sidebar-wrapper" data-simplebar="true">
+            <div class="sidebar-header">
+                <div>
+                    <img src="~/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+                </div>
+                <div>
+                    <h4 class="logo-text">S.E.M</h4>
+                </div>
+                <div class="toggle-icon ms-auto">
+                    <i class='bx bx-first-page'></i>
+                </div>
+            </div>
+            <!--navigation-->
+            <partial name="Partials/Sidebar" />
+            <!--end navigation-->
+        </div>
+        <!--end sidebar wrapper -->
+        <partial name="Partials/Headers" />
+        <!--start page wrapper -->
+        <div class="page-wrapper">
+            <div class="page-content">
+                <div flashes></div>
+                @RenderBody()
+            </div>
+
+        </div>
+        <!--end page wrapper -->
+        <!--start overlay-->
+        <div class="overlay toggle-icon"></div>
+        <!--end overlay-->
+        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+        <!--End Back To Top Button-->
+        <partial name="Partials/Footer" />
+    </div>
+    <!--end wrapper-->
+    <!-- Bootstrap JS -->
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <!--plugins-->
+
+    <script src="~/assets/plugins/simplebar/js/simplebar.min.js"></script>
+    <script src="~/assets/plugins/metismenu/js/metisMenu.min.js"></script>
+    <script src="~/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script src="~/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="~/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/assets/plugins/highcharts/js/highcharts.js"></script>
+    <script src="~/assets/plugins/highcharts/js/exporting.js"></script>
+    <script src="~/assets/plugins/highcharts/js/variable-pie.js"></script>
+    <script src="~/assets/plugins/highcharts/js/export-data.js"></script>
+    <script src="~/assets/plugins/highcharts/js/accessibility.js"></script>
+    <script src="~/assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+
+    <!--app JS-->
+    <script src="~/assets/js/app.js"></script>
+  @*  <script>
+        new PerfectScrollbar('.customers-list');
+        //new PerfectScrollbar('.store-metrics');
+        new PerfectScrollbar('.product-list');
+    </script>*@
+    @*@await RenderSectionAsync("Scripts", required: false)*@
+</body>
+
+</html>

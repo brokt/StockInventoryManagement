@@ -1,0 +1,62 @@
+﻿@model Core.ViewComponents.PageHeaderViewModel
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@Html.AntiForgeryToken()
+
+
+<div class="row page-title align-items-center mb-3 m-1">
+    <div class="col-md-3 col-xl-6">
+        <h3 class="mb-0 mt-0 text-center text-md-start">@Model.Title</h3>
+    </div>
+    <div class="col-md-9 col-xl-6 mt-2 mt-md-0">
+        <div class="d-flex justify-content-center justify-content-md-end">
+            @if (!string.IsNullOrEmpty(Model.BackToListLink))
+            {
+                <a asp-page="@Model.BackToListLink" class="btn btn-outline-info px-5 radius-30 m-1">Listeye Dön</a>
+            }
+            @if (!string.IsNullOrEmpty(Model.DeleteMethod))
+            {
+                <button class="btn btn-outline-danger px-5 radius-30 m-1 btn-delete" onclick="@Model.DeleteMethod">Sil</button>
+            }
+            @if (!string.IsNullOrEmpty(Model.SaveMethod))
+            {
+                <button class="btn btn-outline-primary px-5 radius-30 m-1 btn-save" onclick="@Model.SaveMethod">Kaydet</button>
+            }
+            @if (!string.IsNullOrEmpty(Model.SaveAndNotifyMethod))
+            {
+                <button class="btn btn-outline-secondary px-5 radius-30 m-1 btn-save" onclick="@Model.SaveAndNotifyMethod">Kaydet ve Bilgilendir</button>
+            }
+            @if (Model.CustomButtonOptions != null)
+            {
+                <button class="btn btn-outline-secondary px-5 radius-30 m-1" onclick="@Model.CustomButtonOptions.Method">@Model.CustomButtonOptions.Text</button>
+            }
+            @if (!string.IsNullOrEmpty(Model.SearchFields))
+            {
+                <form id="grid-search-form" data-grid-id="grid" class="m-1" data-search-colums="@Model.SearchFields" data-page-size="20">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Ara..." aria-label="Ara..." aria-describedby="basic-addon2">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <span class="k-input-icon">
+                                <span class="k-icon k-i-search"></span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            }
+            @if (!string.IsNullOrEmpty(Model.SecondaryButtonLink))
+            {
+                <a asp-page="@Model.SecondaryButtonLink" asp-route-id="0" class="btn btn-secondary mb-3 mb-sm-0 ms-2 text-nowrap">@(Model.SecondaryButtonText ?? "")</a>
+            }
+            @if (!string.IsNullOrEmpty(Model.AddNewLink))
+            {
+                <a asp-page="@Model.AddNewLink" asp-route-id="0" class="btn btn-outline-primary px-5 radius-30 m-1">
+                    <i class="fadeIn animated bx bx-plus-circle"></i>@(Model.AddNewText ?? "Yeni Ekle")
+                </a>
+            }
+            @if (Model.EditItemId > 0)
+            {
+                <a asp-page="./Edit" class="btn btn-primary mb-3 mb-sm-0 ms-2" asp-route-id="@Model.EditItemId">Düzenle</a>
+            }
+        </div>
+    </div>
+</div>

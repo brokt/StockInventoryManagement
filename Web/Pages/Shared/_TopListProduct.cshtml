@@ -1,0 +1,143 @@
+﻿@model List<TopProducts>
+
+
+
+
+        <div class="product-list p-3 mb-3 ps ps--active-y">
+            @foreach (var item in Model)
+            {
+                <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+                    <div class="product-img me-2">
+                        <img src="assets/images/products/01.png" alt="product img">
+                    </div>
+                    <div class="">
+                        <h6 class="mb-0 font-14">@item.ProductName</h6>
+                        <p class="mb-0">Toplam satış @item.SaleCount</p>
+                    </div>
+                    <div class="ms-auto">
+                        <h6 class="mb-0">$246.24</h6>
+                    </div>
+                </div>
+            }
+
+            @*
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/03.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Red Single Sofa</h6>
+            <p class="mb-0">122 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$328.14</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/04.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Pink Rounded Sofa</h6>
+            <p class="mb-0">105 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$124.35</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/05.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Brown Single Table</h6>
+            <p class="mb-0">201 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$158.34</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/06.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Grey Long Chair</h6>
+            <p class="mb-0">146 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">158.24</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/07.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Beautiful Sofa</h6>
+            <p class="mb-0">210 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$520.24</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/08.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Grey Stand Table</h6>
+            <p class="mb-0">115 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$345.24</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/09.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Brown Single Table</h6>
+            <p class="mb-0">116 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$126.24</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/10.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Four Leg Chair</h6>
+            <p class="mb-0">154 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$425.24</h6>
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center py-3 border-bottom cursor-pointer">
+            <div class="product-img me-2">
+            <img src="assets/images/products/11.png" alt="product img">
+            </div>
+            <div class="">
+            <h6 class="mb-0 font-14">Blue Light T-Shirt</h6>
+            <p class="mb-0">186 Sales</p>
+            </div>
+            <div class="ms-auto">
+            <h6 class="mb-0">$149.34</h6>
+            </div>
+            </div>
+
+            <div class="ps__rail-x" style="left: 0px; bottom: -362px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 362px; height: 450px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 201px; height: 249px;"></div></div>
+            *@
+        </div>

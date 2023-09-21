@@ -1,0 +1,54 @@
+﻿@page
+@model Web.Pages.WareHouses.EditModel
+@{
+    ViewData["Title"] = "Depo " + ((Model.Warehouse != null && Model.Warehouse.Id > 0) ? "Düzenle" : "Ekle");
+}
+
+<form asp-page-handler="delete" method="post" id="form-delete">
+    <input type="hidden" asp-for="Warehouse.Id" />
+</form>
+
+@await Component.InvokeAsync("PageHeader",
+   new PageHeaderViewModel
+   {
+       Title = (string)ViewData["Title"]!,
+       BackToListLink = "Index",
+       SaveMethod = "saveEntity()",
+       DeleteMethod = (Model.Warehouse != null && Model.Warehouse.Id > 0) ? "deleteEntity()" : null
+   }
+)
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" id="form-main">
+                            <div class="row">
+
+                                @if (Model.Warehouse != null && Model.Warehouse.Id > 0)
+                                {
+                                    <input type="hidden" asp-for="Warehouse.Id" />
+                                }
+                                <div asp-validation-summary="ModelOnly" class="text-danger col-12"></div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Warehouse.Name" class="form-label">Depo Adı</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Warehouse.Name).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Warehouse.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Warehouse.Location" class="form-label">Lokasyon</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Warehouse.Location).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Warehouse.Location" class="text-danger"></span>
+                                </div>
+                               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

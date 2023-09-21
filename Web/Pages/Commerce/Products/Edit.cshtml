@@ -1,0 +1,182 @@
+﻿@page
+@*@page "{id}"*@
+@model Web.Pages.Commerce.Products.EditModel
+
+
+@{
+    ViewData["Title"] = "Ürün " + ((Model.Product != null && Model.Product.Id > 0) ? "Düzenle" : "Ekle");
+}
+
+<form asp-page-handler="delete" method="post" id="form-delete">
+    <input type="hidden" asp-for="Product.Id" />
+</form>
+
+@await Component.InvokeAsync("PageHeader",
+   new PageHeaderViewModel
+   {
+       Title = (string)ViewData["Title"]!,
+       BackToListLink = "Index",
+       SaveMethod = "saveEntity()",
+       DeleteMethod = (Model.Product != null && Model.Product.Id > 0) ? "deleteEntity()" : null
+   }
+)
+<script>
+    // function that gathers IDs of checked nodes
+    function checkedNodeIds(nodes, checkedNodes) {
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].checked) {
+                checkedNodes.push(nodes[i].id);
+            }
+
+            if (nodes[i].hasChildren) {
+                checkedNodeIds(nodes[i].children.view(), checkedNodes);
+            }
+        }
+    }
+
+    // show checked node IDs on datasource change
+    function onChange() {
+        var checkedNodes = [],
+            dropDownTree = $("#ProductCategories").data("kendoDropDownTree"),
+            message;
+
+        checkedNodeIds(dropDownTree.dataSource.view(), checkedNodes);
+
+        if (checkedNodes.length > 0) {
+            message = "IDs of checked nodes: " + checkedNodes.join(",");
+        } else {
+            message = "No nodes checked.";
+        }
+
+        $("#result").html(message);
+    }
+</script>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" id="form-main">
+                            <div class="row">
+
+                                @if (Model.Product != null && Model.Product.Id > 0)
+                                {
+                                    <input type="hidden" asp-for="Product.Id" />
+                                }
+                                <div asp-validation-summary="ModelOnly" class="text-danger col-12"></div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.Name" class="form-label">Ürün Adı</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Product.Name).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.Description" class="form-label">Açıklama</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Product.Description).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.Sku" class="form-label">Stok Kodu</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Product.Sku).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.Sku" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.ShelfNumber" class="form-label">Raf Numarası</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Product.ShelfNumber).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.ShelfNumber" class="text-danger"></span>
+                                </div> 
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.BatchNumber" class="form-label">Parti Numarası</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Product.BatchNumber).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.BatchNumber" class="text-danger"></span>
+                                </div>                              
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.Brand" class="form-label">Marka</label>
+                                    @Html.Kendo().TextBoxFor(f => f.Product.Brand).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.Brand" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.Weight" class="form-label">Ağırlık</label>
+                                    @Html.Kendo().NumericTextBoxFor(f => f.Product.Weight).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.Weight" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.UnitPrice" class="form-label">Birim Fiyat</label>
+                                    @Html.Kendo().NumericTextBoxFor(f => f.Product.UnitPrice).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.UnitPrice" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.CostPrice" class="form-label">Maliyet Fiyatı</label>
+                                    @Html.Kendo().NumericTextBoxFor(f => f.Product.CostPrice).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.CostPrice" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.CostPrice" class="form-label">Mevcut Stok Miktarı</label>
+                                    @Html.Kendo().NumericTextBoxFor(f => f.Product.CurrentStockQuantity).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.CostPrice" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.MinimumStockQuantity" class="form-label">Min. Stok</label>
+                                    @Html.Kendo().NumericTextBoxFor(f => f.Product.MinimumStockQuantity).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.MinimumStockQuantity" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.MaximumStockQuantity" class="form-label">Max. Stok</label>
+                                    @Html.Kendo().NumericTextBoxFor(f => f.Product.MaximumStockQuantity).HtmlAttributes(new { @style = "width:100%" })
+                                    <span asp-validation-for="Product.MaximumStockQuantity" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="form-group col-6">
+                                    <label asp-for="Product.ProductCategories" class="form-label">Max. Stok</label>
+                                    @(Html.Kendo().DropDownTreeFor(m => m.ListProductCategories)
+                                        @*.Name("ListProductCategories")*@
+                                        .DataTextField("name")
+                                        .DataValueField("id")
+                                        .Placeholder("--Kategori Seçiniz--")
+                                        .AutoWidth(true)
+                                        .AutoClose(false)
+                                        .Checkboxes(checkboxes => checkboxes
+                                        .Name("checkedCategories")
+                                        .CheckChildren(true)
+                                        )
+                                        
+                                        .Events(events => events.Change("onChange"))
+                                        .Value(Model.Product != null ? Model.Product.ProductCategories.Select(x => x.CategoryId).ToList() :"")
+                                        .DataSource(source =>
+                                        {
+                                            source.Read(read =>
+                                            {
+                                                read.Url(Model.CurrentPageUrl + "?handler=ReadCategories").Data("forgeryToken");
+                                            })
+                                            .ServerFiltering(true);
+                                            
+                                        })
+                                    @*    .DataSource(dataSource => dataSource
+                                        .Custom()
+                                        .Transport(t => t
+                                        .Read(r => r.Url(Model.CurrentPageUrl + "?handler=ReadCategories").Data("forgeryToken")))
+                                        )*@
+                                        )
+                                    <span asp-validation-for="Product.MaximumStockQuantity" class="text-danger"></span>
+                                </div>
+                             
+                               
+
+                                <div class="form-group">
+                                    <input type="submit" value="Güncelle" class="btn btn-primary d-none" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

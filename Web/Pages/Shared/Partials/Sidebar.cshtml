@@ -1,0 +1,147 @@
+﻿<ul class="metismenu" id="menu">
+    <li class="menu-label">Envanter Yönetimi</li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+                <i class='bx bx-folder'></i>
+            </div>
+            <div class="menu-title">Kategoriler</div>
+        </a>
+        <ul>
+            <li>
+                <a href="/Commerce/Categories"><i class="bx bx-menu"></i>Kategori Listesi</a>
+            </li>
+          
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+                <i class='bx bx-box'></i>
+            </div>
+            <div class="menu-title">Ürünler</div>
+        </a>
+        <ul>
+            <li>
+                <a href="/Commerce/Products"><i class="bx bx-list-check"></i>Ürün Listesi</a>
+
+            </li>
+            <li>
+                @*<a href="/Commerce/Products/Edit"><i class="bx bx-plus"></i>Ürün Ekle</a>*@
+                <a asp-page="/Commerce/Products/Edit" asp-route-id="0">
+                    <i class="bx bx-list-check"></i>Ürün Ekle
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+                <i class='bx bx-user-voice'></i>
+            </div>
+            <div class="menu-title">Tedarikçiler</div>
+        </a>
+        <ul>
+            <li>
+                <a href="/Suppliers/"><i class="bx bx-group"></i>Tedarikci Listesi</a>
+
+            </li>
+            <li>
+                <a asp-page="/Suppliers/Edit" asp-route-id="0">
+                    <i class="bx bx-plus-circle"></i>Tedarikci Ekle
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+                <i class='bx bx-user'></i>
+            </div>
+            <div class="menu-title">Müşteriler</div>
+        </a>
+        <ul>
+            <li>
+                <a href="/Customers/"><i class="bx bx-user"></i>Müşteri Listesi</a>
+
+            </li>
+            <li>
+                <a asp-page="/Customers/Edit" asp-route-id="0">
+                    <i class="bx bx-user-plus"></i>Müşteri Ekle
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+                <i class='bx bx-shopping-bag'></i>
+            </div>
+            <div class="menu-title">Siparişler</div>
+        </a>
+        <ul>
+            <li>
+                <a href="/Orders/"><i class="bx bx-shopping-bag"></i>Sipariş Listesi</a>
+
+            </li>
+            <li>
+                <a asp-page="/Orders/Edit" asp-route-id="0">
+                    <i class="bx bx-cart"></i>Sipariş Oluştur
+                </a>
+
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+                <i class='bx bx-store'></i>
+            </div>
+            <div class="menu-title">Depolar</div>
+        </a>
+        <ul>
+            <li>
+                <a href="/WareHouses/"><i class="bx bx-building"></i>Depo Listesi</a>
+
+            </li>
+            <li>
+                <a asp-page="/WareHouses/Edit" asp-route-id="0">
+                    <i class="bx bx-add-to-queue"></i>Depo Ekle
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    @*<li>
+    <a href="javascript:;" class="has-arrow">
+    <div class="parent-icon">
+    <i class='bx bx-home'></i>
+    </div>
+    <div class="menu-title">E-Ticaret</div>
+    </a>
+    <ul>
+    <li>
+    <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Kategoriler</a>
+    <ul>
+    <li>
+    <a href="/Commerce/Categories"><i class="bx bx-right-arrow-alt"></i>Kategori Listesi</a>
+    <a href="/Commerce/Categories/Edit"><i class="bx bx-right-arrow-alt"></i>Kategori Ekle/Güncelle</a>
+
+    </li>
+    </ul>
+    </li>
+    <li>
+    <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Ürünler</a>
+    <ul>
+    <li>
+    <a href="/Commerce/Products"><i class="bx bx-right-arrow-alt"></i>Ürün Listesi</a>
+    <a href="/Commerce/Products/Edit"><i class="bx bx-right-arrow-alt"></i>Ürün Ekle/Güncelle</a>
+
+    </li>
+    </ul>
+    </li>
+
+    </ul>
+    </li>*@
+
+</ul>

@@ -1,0 +1,59 @@
+:root {
+    --copy-text-email-top-before-val: 48px;
+    --copy-text-email-top-after-val: 44px;
+    --copy-text-email-right-before-val: 45px;
+    --copy-text-email-right-after-val: 100px;
+}
+
+
+.copy-text {
+    position: relative;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    display: flex;
+}
+
+    .copy-text .copy-email {
+        padding: 10px;
+        font-size: 18px;
+        color: #555;
+        border: none;
+        outline: none;
+    }
+
+        .copy-text .copy-email:active {
+            background: #809ce2;
+        }
+
+        .copy-text .copy-email:before {
+            content: "Kopyalandý";
+            position: absolute;
+            top: var(--copy-text-email-top-before-val);
+            right: var(--copy-text-email-right-before-val);
+            background: #5c81dc;
+            padding: 8px 10px;
+            border-radius: 20px;
+            font-size: 15px;
+            display: none;
+            color: white;
+            z-index: 10;
+        }
+
+        .copy-text .copy-email:after {
+            content: "";
+            position: absolute;
+            top: var(--copy-text-email-top-after-val);
+            right: var(--copy-text-email-right-after-val);
+            width: 10px;
+            height: 10px;
+            background: #5c81dc;
+            transform: rotate(45deg);
+            display: none;
+        }
+
+    .copy-text.active .copy-email:before,
+    .copy-text.active .copy-email:after {
+        display: block;
+    }
